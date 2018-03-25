@@ -1,0 +1,3 @@
+dog cat rat
+car car rat
+dog car cat

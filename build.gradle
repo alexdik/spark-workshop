@@ -1,0 +1,23 @@
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'java'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    def sparkVersion = "2.1.0"
+
+    compile "commons-io:commons-io:2.4"
+    compile "com.google.guava:guava:21.0"
+    compile "org.mongodb:bson:3.0.0"
+    compile "org.apache.spark:spark-core_2.11:$sparkVersion"
+    compile "org.apache.spark:spark-sql_2.11:$sparkVersion"
+
+    testCompile "junit:junit:4.12"
+    testCompile "org.assertj:assertj-core:3.6.2"
+}
+
+
