@@ -60,7 +60,7 @@ public class PublisherDailyReport {
             Hints:
                 1) join 3 datasets reqDs, rspDs, impDs via auctionId column
                 2) add day column to dataset populated as substring from date column
-                3) aggregate dataset by publisherId and day
+                3) group dataset by publisherId and day
                 4) calculate total count number of records for each dataset
                 5) map publisherId to publisher name and sort
 
