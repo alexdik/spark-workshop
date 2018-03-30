@@ -13,6 +13,7 @@ public class SparkHelper {
     public SparkHelper() {
         SparkConf conf = new SparkConf()
             .setAppName("spark-workshop")
+            .set("spark.driver.host", "localhost")
             .setMaster("local[4]");
         this.session = SparkSession.builder().config(conf).getOrCreate();
         this.context = this.session.sparkContext();
