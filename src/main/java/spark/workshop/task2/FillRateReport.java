@@ -57,6 +57,12 @@ public class FillRateReport {
          */
 
         reqDs
+            .join(rspDs, reqDs.col("auctionId").equalTo(rspDs.col("auctionId")), "left_outer")
+            .withColumn("hasResponse", when(col("advertiserId").isNotNull(), 1).otherwise(0))
+            .select(callUDF("getPublisherName", col("publisherId")).as("publisher"), col("hasResponse"))
+            .groupBy(col("publisher"))
+            .agg(round(sum("hasResponse").divide(count("hasResponse")).as("fillRate"), 2).as("fillRate"))
+            .sort(desc("fillRate"))
             .show();
     }
 }

@@ -1,7 +1,9 @@
 package spark.workshop.task3;
 
 import org.apache.spark.broadcast.Broadcast;
+
 import static scala.reflect.ClassManifestFactory.fromClass;
+
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.api.java.UDF1;
@@ -67,6 +69,15 @@ public class PublisherDailyReport {
          */
 
         reqDs
+            .join(rspDs, reqDs.col("auctionId").equalTo(rspDs.col("auctionId")), "left_outer")
+            .join(impDs, reqDs.col("auctionId").equalTo(impDs.col("auctionId")), "left_outer")
+            .withColumn("publisher", callUDF("getPublisherName", col("publisherId")))
+            .withColumn("day", col("date").substr(0, 10))
+            .groupBy(col("publisher"), col("day"))
+            .agg(count(reqDs.col("auctionId")).as("requests"),
+                count(rspDs.col("auctionId")).as("responses"),
+                count(impDs.col("auctionId")).as("impressions"))
+            .sort("publisher", "day")
             .show(50);
     }
 }
