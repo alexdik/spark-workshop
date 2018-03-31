@@ -12,7 +12,6 @@ public class CostReport {
     public static void main(String[] args) {
         SparkHelper spark = new SparkHelper();
         Dataset<Row> src = spark.readJson("data/ad-response.json");
-        src.show(false);
         src.printSchema();
 
         /*

@@ -1,9 +1,10 @@
 package spark.workshop.util;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Registry {
+public class Registry implements Serializable {
     private final Map<Long, String> publishers;
 
     public Registry() {
