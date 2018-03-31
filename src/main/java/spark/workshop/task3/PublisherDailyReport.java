@@ -17,8 +17,8 @@ public class PublisherDailyReport {
     public static void main(String[] args) {
         SparkHelper spark = new SparkHelper();
         Broadcast<Registry> registryBroadcast = spark.context.broadcast(new Registry(), fromClass(Registry.class));
-        UDF1<Long, String> getAdvertiserName = registryBroadcast.value()::getPublisherName;
-        spark.session.udf().register("getAdvName", getAdvertiserName, DataTypes.StringType);
+        UDF1<Long, String> getPublisherName = registryBroadcast.value()::getPublisherName;
+        spark.session.udf().register("getPublisherName", getPublisherName, DataTypes.StringType);
 
         Dataset<Row> reqDs = spark.readJson("data/ad-request.json");
         Dataset<Row> rspDs = spark.readJson("data/ad-response.json");
@@ -62,7 +62,7 @@ public class PublisherDailyReport {
                 2) add day column to dataset populated as substring from date column
                 3) group dataset by publisherId and day
                 4) calculate total count number of records for each dataset
-                5) map publisherId to publisher name and sort
+                5) map publisherId to publisher name using UDF getPublisherName and sort
 
          */
 

@@ -19,8 +19,8 @@ public class FillRateReport {
     public static void main(String[] args) {
         SparkHelper spark = new SparkHelper();
         Registry registry = new Registry();
-        UDF1<Long, String> getAdvertiserName = registry::getPublisherName;
-        spark.session.udf().register("getAdvName", getAdvertiserName, DataTypes.StringType);
+        UDF1<Long, String> getPublisherName = registry::getPublisherName;
+        spark.session.udf().register("getPublisherName", getPublisherName, DataTypes.StringType);
         Dataset<Row> reqDs = spark.readJson("data/ad-request.json");
         Dataset<Row> rspDs = spark.readJson("data/ad-response.json");
 
@@ -53,7 +53,7 @@ public class FillRateReport {
                 3) group by publisherId
                 4) aggregate and calculate ratio between total responses (sum of hasResponse) and requests count
                 5) sort output by fill rate descending
-                6) map publisherId to publisher name using UDF getAdvName
+                6) map publisherId to publisher name using UDF getPublisherName
          */
 
         reqDs
